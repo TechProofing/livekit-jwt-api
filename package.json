@@ -1,0 +1,30 @@
+{
+  "name": "livekit-jwt-api",
+  "version": "1.0.0",
+  "description": "basic livekit jwt api",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/TechProofing/livekit-jwt-api.git"
+  },
+  "keywords": [
+    "livekit",
+    "jwt"
+  ],
+  "author": "Boorman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TechProofing/livekit-jwt-api/issues"
+  },
+  "homepage": "https://github.com/TechProofing/livekit-jwt-api#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "livekit-server-sdk": "^2.3.0"
+  }
+}
