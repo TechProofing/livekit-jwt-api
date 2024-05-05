@@ -59,6 +59,13 @@ docker run -p 3000:3000 livekit-jwt-api
 ```
 This command maps port `3000` of the container to port `3000` on your host, allowing you to access the API via `localhost:3000`.
 
+## Pull Our Docker Image
+```bash
+docker pull ghcr.io/${{ github.repository }}/livekit-jwt-api:latest
+```
+```plaintext
+Published on
+```
 ## Usage
 Once the server is running, you can generate JWTs by sending a POST request to `http://localhost:3000/getToken` with a JSON payload containing `roomName` and `participantName`. Example using curl:
 ```bash
