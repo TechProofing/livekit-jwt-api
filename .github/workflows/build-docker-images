@@ -36,7 +36,7 @@ jobs:
       - name: Update README.md
         run: |
           # Update Docker Pull Command
-          sed -i 's|docker pull ghcr.io/${{ github.repository }}/livekit-jwt-api:.*|docker pull ghcr.io/${{ github.repository }}/livekit-jwt-api:latest|' README.md
+          sed -i 's|docker pull .*|docker pull ghcr.io/${{ github.repository }}/livekit-jwt-api:latest|' README.md
           # Update Publish Date
           sed -i 's|Published on .*|Published on $(date +'%Y-%m-%d')|' README.md
         shell: bash
