@@ -23,20 +23,25 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+ 
+      - id: lower-repo
+        name: Repository to lowercase
+        run: |
+          echo "repository=${GITHUB_REPOSITORY@L}" >> $GITHUB_OUTPUT
+ 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository }}/livekit-jwt-api:latest,ghcr.io/${{ github.repository }}/livekit-jwt-api:${{ github.sha }}
+          tags: ghcr.io/${{ steps.lower-repo.outputs.repository }}:latest,ghcr.io/${{ steps.lower-repo.outputs.repository }}:${{ github.sha }}
           platforms: linux/amd64, linux/arm64
 
       - name: Update README.md
         run: |
           # Update Docker Pull Command
-          sed -i 's|docker pull .*|docker pull ghcr.io/${{ github.repository }}/livekit-jwt-api:latest|' README.md
+          sed -i 's|docker pull .*|docker pull ghcr.io/${{ steps.lower-repo.outputs.repository }}:latest|' README.md
           # Update Publish Date
           sed -i 's|Published on .*|Published on $(date +'%Y-%m-%d')|' README.md
         shell: bash
