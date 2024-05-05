@@ -45,10 +45,10 @@ jobs:
       - name: Update README.md
         run: |
           # Update Docker Pull Command
-          sed -i 's|docker pull .*|docker pull ghcr.io/${{ steps.lower-repo.outputs.repository }}:latest|' README.md
+          sed -i 's|docker pull.*|docker pull ghcr.io/${{ steps.lower-repo.outputs.repository }}:latest|' README.md
           # Update Publish Date
           echo "$(date +'%Y-%m-%d %H:%M:%S %Z(%z)')"
-          sed -i "s|Published on .*|Published on $(date +'%Y-%m-%d %H:%M:%S %Z(%z)')|" README.md
+          sed -i "s|Published on.*|Published on $(date +'%Y-%m-%d %H:%M:%S %Z(%z)')|" README.md
         shell: bash
 
       - name: Push changes
