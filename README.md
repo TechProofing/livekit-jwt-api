@@ -61,7 +61,7 @@ This command maps port `3000` of the container to port `3000` on your host, allo
 
 ## Pull Our Docker Image
 ```bash
-docker pull ghcr.io/${{ github.repository }}/livekit-jwt-api:latest
+docker pull ghcr.io/techproofing/livekit-jwt-api:latest
 ```
 ```plaintext
 Published on
