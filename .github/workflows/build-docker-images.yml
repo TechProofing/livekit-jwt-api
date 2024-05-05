@@ -47,7 +47,7 @@ jobs:
           # Update Docker Pull Command
           sed -i 's|docker pull .*|docker pull ghcr.io/${{ steps.lower-repo.outputs.repository }}:latest|' README.md
           # Update Publish Date
-          sed -i 's|Published on .*|Published on $(date +'%Y-%m-%d')|' README.md
+          sed -i "s|Published on .*|Published on $(date +'%Y-%m-%d')|" README.md
         shell: bash
 
       - name: Push changes

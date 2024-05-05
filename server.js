@@ -43,7 +43,7 @@ app.post('/getToken', async (req, res) => {
   try {
     const token = await createToken(roomName, participantName);
     const server = process.env.LIVEKIT_SERVER;
-    res.json({ token, server });
+    res.json({ token, server, roomName, participantName });
   } catch (error) {
     console.error('Failed to create token:', error);
     res.status(500).json({ error: 'Failed to create token' });
