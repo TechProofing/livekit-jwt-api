@@ -1,0 +1,49 @@
+name: Docker Image CI
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository }}/livekit-jwt-api:latest,ghcr.io/${{ github.repository }}/livekit-jwt-api:${{ github.sha }}
+          platforms: linux/amd64, linux/arm64
+
+      - name: Update README.md
+        run: |
+          # Update Docker Pull Command
+          sed -i 's|docker pull ghcr.io/${{ github.repository }}/livekit-jwt-api:.*|docker pull ghcr.io/${{ github.repository }}/livekit-jwt-api:latest|' README.md
+          # Update Publish Date
+          sed -i 's|Published on .*|Published on $(date +'%Y-%m-%d')|' README.md
+        shell: bash
+
+      - name: Push changes
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+          git commit -am "Update README with Docker info"
+          git push
