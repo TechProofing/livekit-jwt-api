@@ -2,10 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import { AccessToken } from 'livekit-server-sdk';
 
-const createToken = async (roomName, participantName) => {
+const createToken = async (roomName, userName) => {
   const ttlValue = process.env.LIVEKIT_TOKEN_TTL || '10m'; // Default to 10 minutes if not set
   const at = new AccessToken(process.env.LIVEKIT_API_KEY, process.env.LIVEKIT_API_SECRET, {
-    identity: participantName,
+    identity: userName,
     ttl: ttlValue,
   });
   at.addGrant({ roomJoin: true, room: roomName });
@@ -30,9 +30,9 @@ app.use(express.json());
 console.log(`CORS Allowed Origins: ${corsOptions.origin}`);
 console.log(`LiveKit Token TTL: ${process.env.LIVEKIT_TOKEN_TTL || '10m'}`);
 
-app.post('/getToken', async (req, res) => {
-  const { roomName, participantName } = req.body;
-  if (!roomName || !participantName) {
+app.post('/api/v2/meet/token', async (req, res) => {
+  const { roomName, userName } = req.body;
+  if (!roomName || !userName) {
     return res.status(400).json({ error: 'Room name and participant name are required' });
   }
 
@@ -41,9 +41,10 @@ app.post('/getToken', async (req, res) => {
 //   console.log(`Processing token request - LiveKit Token TTL: ${process.env.LIVEKIT_TOKEN_TTL || '10m'}`);
 
   try {
-    const token = await createToken(roomName, participantName);
-    const server = process.env.LIVEKIT_SERVER;
-    res.json({ token, server, roomName, participantName });
+    const token = await createToken(roomName, userName);
+    const url = process.env.LIVEKIT_SERVER;
+    const success = true;
+    res.json({ roomName, success, token, url });
   } catch (error) {
     console.error('Failed to create token:', error);
     res.status(500).json({ error: 'Failed to create token' });
