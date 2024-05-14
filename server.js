@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
 import { AccessToken } from 'livekit-server-sdk';
 
 const createToken = async (roomName, userName) => {
@@ -29,6 +30,13 @@ app.use(express.json());
 // Log CORS origins and TTL on server start
 console.log(`CORS Allowed Origins: ${corsOptions.origin}`);
 console.log(`LiveKit Token TTL: ${process.env.LIVEKIT_TOKEN_TTL || '10m'}`);
+
+// Serve static files from the 'public' directory
+app.use(express.static('public'));
+// Default route to serve the main web page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.post('/api/v2/meet/token', async (req, res) => {
   const { roomName, userName } = req.body;
