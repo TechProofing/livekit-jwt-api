@@ -4,7 +4,7 @@ on:
   release:
     types: [published]
     tags:
-      - 'casual-onprem/v*'
+      - 'casualos-onprem/v*'
 
 jobs:
   build-and-push:
@@ -34,6 +34,13 @@ jobs:
         name: Repository to lowercase
         run: |
           echo "repository=${GITHUB_REPOSITORY@L}" >> $GITHUB_OUTPUT
+
+      - name: Extract tag name
+        id: extract-tag
+        run: |
+          TAG_NAME=$(echo "${GITHUB_REF}" | sed 's|refs/tags/||')
+          CLEAN_TAG=$(echo "${TAG_NAME}" | sed 's|.*/||')
+          echo "::set-output name=tag_name::${CLEAN_TAG}"
  
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -41,5 +48,5 @@ jobs:
           context: .
           file: ./Dockerfile-onprem
           push: true
-          tags: ghcr.io/${{ steps.lower-repo.outputs.repository }}:oneprem,ghcr.io/${{ steps.lower-repo.outputs.repository }}:${{ github.ref_name }}-onprem
+          tags: ghcr.io/${{ steps.lower-repo.outputs.repository }}:oneprem,ghcr.io/${{ steps.lower-repo.outputs.repository }}:${{ steps.extract-tag.outputs.tag_name }}-onprem
           platforms: linux/amd64, linux/arm64
