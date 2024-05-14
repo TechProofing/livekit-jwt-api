@@ -39,7 +39,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./Dockerfile
+          file: ./Dockerfile-onprem
           push: true
           tags: ghcr.io/${{ steps.lower-repo.outputs.repository }}:oneprem,ghcr.io/${{ steps.lower-repo.outputs.repository }}:${{ github.ref_name }}-onprem
           platforms: linux/amd64, linux/arm64
