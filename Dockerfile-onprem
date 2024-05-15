@@ -13,7 +13,7 @@ RUN npm install --only=production
 COPY ./server.js .
 
 # Copy the web files to the public directory
-COPY public ./public
+COPY ./public/dist ./public
 
 # Run the application
 CMD ["node", "server.js"]
