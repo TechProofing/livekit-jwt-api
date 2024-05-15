@@ -48,5 +48,5 @@ jobs:
           context: .
           file: ./Dockerfile-onprem
           push: true
-          tags: ghcr.io/${{ steps.lower-repo.outputs.repository }}:oneprem,ghcr.io/${{ steps.lower-repo.outputs.repository }}:${{ steps.extract-tag.outputs.tag_name }}-onprem
+          tags: ghcr.io/${{ steps.lower-repo.outputs.repository }}:onprem,ghcr.io/${{ steps.lower-repo.outputs.repository }}:${{ steps.extract-tag.outputs.tag_name }}-onprem
           platforms: linux/amd64, linux/arm64
